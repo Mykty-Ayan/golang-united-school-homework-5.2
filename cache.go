@@ -19,7 +19,7 @@ func NewCache() Cache {
 	}
 }
 
-func (c Cache) Get(key string) (string, bool) {
+func (c *Cache) Get(key string) (string, bool) {
 	c.deleteExpiredKeys()
 	if val, ok := c.cacheMap[key]; ok {
 		return val.value, ok
@@ -55,7 +55,7 @@ func (c *Cache) deleteExpiredKeys() {
 		if value.deadline.IsZero() {
 			continue
 		}
-		if value.deadline.After(time.Now()) {
+		if value.deadline.Before(time.Now()) {
 			expiredKeys = append(expiredKeys, key)
 		}
 	}
