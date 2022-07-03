@@ -43,7 +43,7 @@ func (c *Cache) Keys() []string {
 
 func (c *Cache) PutTill(key, value string, deadline time.Time) {
 	if deadline.IsZero() {
-		deadline = time.Now()
+		deadline = time.Now().Add(-time.Second)
 	}
 	cv := cacheValue{value, deadline}
 	c.cacheMap[key] = cv
